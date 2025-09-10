@@ -13,7 +13,7 @@ jobs:
       - name: Checkout
         uses: actions/Checkout@4
         with:
-          fetch-depth:1
+          fetch-depth: 1
       - name: QEMU 
         uses: docker/setup-qemu-action@v2
 
