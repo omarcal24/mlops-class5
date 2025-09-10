@@ -1,0 +1,33 @@
+name: Pipeline CI
+
+on:
+  pull_requests:
+    types: [closed]
+
+jobs:
+  build:
+    if: ${{ github.event.pull_request.merge= true }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/Checkout@4
+        with:
+          fetch-depth=1
+      - name: QEMU 
+        uses: docker/setup-qemu-actions@v2
+
+      - name: Buildx
+        uses: docker/setup-buildx-actions@v2
+
+      - name: Log in Docker hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.dockerhub-name }}
+          password: ${{ secrets.dockerhub-token }}
+
+      - name: Build
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
